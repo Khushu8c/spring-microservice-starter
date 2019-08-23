@@ -1,1 +1,1 @@
-"# SpringMicroserviceStarter" 
+"# spring-microservice-starter" 
