@@ -24,11 +24,11 @@ public class CatalogResource {
     public List<CatalogItem> getCatalog(@PathVariable("userId") String userId) {
     	LogManager.getLogger().info("Request to get catalog items for user : {}", userId);
     	
-    	UserRating userRating = restTemplate.getForObject("http://localhost:8082/ratingsdata/user/" + userId, UserRating.class);
+    	UserRating userRating = restTemplate.getForObject("http://ratings-data-service/ratingsdata/user/" + userId, UserRating.class);
 
         return userRating.getRatings().stream()
         		.map(rating -> {
-                    Movie movie = restTemplate.getForObject("http://localhost:8083/movies/" + rating.getMovieId(), Movie.class);
+                    Movie movie = restTemplate.getForObject("http://movie-info-service/movies/" + rating.getMovieId(), Movie.class);
                     return new CatalogItem(movie.getName(), "Description", rating.getRating());
                 })
                 .collect(Collectors.toList());
