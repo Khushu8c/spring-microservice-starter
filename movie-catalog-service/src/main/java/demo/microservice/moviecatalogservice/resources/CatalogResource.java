@@ -2,6 +2,7 @@ package demo.microservice.moviecatalogservice.resources;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import org.apache.logging.log4j.LogManager;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -21,6 +22,8 @@ public class CatalogResource {
 
     @RequestMapping("/{userId}")
     public List<CatalogItem> getCatalog(@PathVariable("userId") String userId) {
+    	LogManager.getLogger().info("Request to get catalog items for user : {}", userId);
+    	
     	UserRating userRating = restTemplate.getForObject("http://localhost:8082/ratingsdata/user/" + userId, UserRating.class);
 
         return userRating.getRatings().stream()
